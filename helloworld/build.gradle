@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group 'wang.xiaoluobo'
+version '1.0-SNAPSHOT'
+
+//mainClassName = 'hello.HelloWorld'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName = 'helloworld'
+    version = '0.0.1'
+}
+
+dependencies {
+    compile "joda-time:joda-time:2.2"
+    testCompile "junit:junit:4.12"
+}
