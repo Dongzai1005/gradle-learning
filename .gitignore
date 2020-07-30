@@ -29,7 +29,8 @@ logs
 .DS_Store
 output
 
-
 */out
 .gradle
-
+/build/
+/gradle-service/build/
+/web/build/

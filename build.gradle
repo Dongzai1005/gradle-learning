@@ -16,3 +16,136 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+
+// -------------------------------------learning gradle&groovy grammar-------------------------------------
+/**
+ * learning gradle&groovy grammar
+ */
+println("learn gradle&groovy")
+
+// a standalone single line comment
+println "hello" // a comment till the end of the line
+
+/* a standalone multiline comment
+   spanning two lines */
+println "hello" /* a multiline comment starting
+                   at the end of a statement */
+println 1 /* one */ + 2 /* two */
+
+/**
+ * A Class description
+ */
+class Person {
+    /** the name of the person */
+    String name
+
+    /**
+     * Creates a greeting method for a certain person.
+     *
+     * @param otherPerson the person to greet
+     * @return a greeting message
+     */
+    String greet(String otherPerson) {
+        "Hello ${otherPerson}"
+    }
+}
+
+def map = [:]
+map."an identifier with a space and double quotes" = "ALLOWED"
+map.'with-dash-signs-and-single-quotes' = "ALLOWED"
+assert map."an identifier with a space and double quotes" == "ALLOWED"
+assert map.'with-dash-signs-and-single-quotes' == "ALLOWED"
+
+map.'single quote'
+map."double quote"
+map.'''triple single quote'''
+map."""triple double quote"""
+map./slashy string/
+map.$/dollar slashy string/$
+
+def firstName = "Homer"
+map."Simpson-${firstName}" = "Homer Simpson"
+assert map.'Simpson-Homer' == "Homer Simpson"
+
+def numbers = [1, 2, 3]
+assert numbers instanceof List
+assert numbers.size() == 3
+
+def arrayList = [1, 2, 3]
+assert arrayList instanceof java.util.ArrayList
+def linkedList = [2, 3, 4] as LinkedList
+assert linkedList instanceof java.util.LinkedList
+LinkedList otherLinked = [3, 4, 5]
+assert otherLinked instanceof java.util.LinkedList
+
+String[] arrStr = ['Ananas', 'Banana', 'Kiwi']
+assert arrStr instanceof String[]
+assert !(arrStr instanceof List)
+def numArr = [1, 2, 3] as int[]
+assert numArr instanceof int[]
+assert numArr.size() == 3
+
+def matrix3 = new Integer[3][3]
+assert matrix3.length == 3
+
+Integer[][] matrix2
+matrix2 = [[1, 2], [3, 4]]
+assert matrix2 instanceof Integer[][]
+
+//def primes = new int[]{2, 3, 5, 7, 11}
+//assert primes.size() == 5 && primes.sum() == 28
+//assert primes.class.name == '[I'
+//
+//def pets = new String[]{'cat', 'dog'}
+//assert pets.size() == 2 && pets.sum() == 'catdog'
+//assert pets.class.name == '[Ljava.lang.String;'
+
+// traditional Groovy alternative still supported
+String[] groovyBooks = ['Groovy in Action', 'Making Java Groovy']
+assert groovyBooks.every { it.contains('Groovy') }
+
+def colors = [red: '#FF0000', green: '#00FF00', blue: '#0000FF']
+assert colors['red'] == '#FF0000'
+assert colors.green == '#00FF00'
+colors['pink'] = '#FF00FF'
+colors.yellow = '#FFFF00'
+assert colors.pink == '#FF00FF'
+assert colors['yellow'] == '#FFFF00'
+
+println(project.getVersion())
+println(getName())
+task groovy_grammar {
+    def s = "groovy_grammar"
+    doLast {
+        print 's: $s '
+        println "s: $s"
+        println("test_gradle_task");
+        println 'test_gradle_task';
+        println(getName())  // 调用不生效
+    }
+}
+
+def getName() {
+    return "name"
+}
+
+
+task test_gradle_task {
+    doFirst {
+        println 'print first'
+    }
+    doLast {
+        println("test_gradle_task");
+        println 'test_gradle_task';
+    }
+}
+
+task taskA {
+    println 'print taskA'
+}
+
+task taskB {
+    println 'print taskB'
+}
+taskA.dependsOn taskB

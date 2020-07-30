@@ -1,0 +1,158 @@
+task hello {
+    doLast {
+        println 'Hello world!'
+    }
+}
+
+task upper {
+    doLast {
+        String someString = 'mY_nAmE'
+        println "Original: $someString"
+        println "Upper case: ${someString.toUpperCase()}"
+    }
+}
+
+task count {
+    doLast {
+        4.times { print "$it " }
+    }
+}
+
+task hi {
+    doLast {
+        println 'Hello world!'
+    }
+}
+task intro {
+    dependsOn hi
+    doLast {
+        println "I'm Gradle"
+    }
+}
+
+task taskX {
+    dependsOn 'taskY'
+    doLast {
+        println 'taskX'
+    }
+}
+task taskY {
+    doLast {
+        println 'taskY'
+    }
+}
+
+4.times { counter ->
+    task "task$counter" {
+        doLast {
+            println "I'm task number $counter"
+        }
+    }
+}
+
+4.times { counter ->
+    task "myTask$counter" {
+        doLast {
+            println "I'm task number $counter"
+        }
+    }
+}
+myTask0.dependsOn myTask2, myTask3
+
+task helloA {
+    doLast {
+        println 'Hello Earth'
+    }
+}
+helloA.doFirst {
+    println 'Hello Venus'
+}
+helloA.configure {
+    doLast {
+        println 'Hello Mars'
+    }
+}
+helloA.configure {
+    doLast {
+        println 'Hello Jupiter'
+    }
+}
+
+task helloB {
+    doLast {
+        println 'Hello world!'
+    }
+}
+helloB.doLast {
+    println "Greetings from the $helloB.name task."
+}
+
+task myTask {
+    ext.myProperty = "myValue"
+}
+
+task printTaskProperties {
+    doLast {
+        println myTask.myProperty
+    }
+}
+
+defaultTasks 'clean', 'run'
+
+task clean {
+    doLast {
+        println 'Default Cleaning!'
+    }
+}
+
+task run {
+    doLast {
+        println 'Default Running!'
+    }
+}
+
+task other {
+    doLast {
+        println "I'm not a default task!"
+    }
+}
+
+task distribution {
+    doLast {
+        println "We build the zip with version=$version"
+    }
+}
+
+task release {
+    dependsOn 'distribution'
+    doLast {
+        println 'We release now'
+    }
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.hasTask(":release")) {
+        version = '1.0'
+    } else {
+        version = '1.0-SNAPSHOT'
+    }
+}
+
+
+import org.apache.commons.codec.binary.Base64
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'commons-codec', name: 'commons-codec', version: '1.2'
+    }
+}
+
+task encode {
+    doLast {
+        def byte[] encodedString = new Base64().encode('hello world\n'.getBytes())
+        println new String(encodedString)
+    }
+}
